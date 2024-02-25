@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>#420 CATS</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      flex-direction: column;
+      background-color: black;
+      color: yellow; /* amarillo para las letras */
+    }
+
+    #contenedor {
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 5em; /* Ajusta el tamaño del título */
+      margin-bottom: 15px; /* Ajusta el margen inferior del título */
+	color: white;
+    }
+    
+    h2 {
+      font-size: 1.5em; /* Ajusta el tamaño del párrafo */
+      margin-top: 10px; /* Ajusta el margen superior del párrafo */
+    }
+  </style>
+</head>
+<body>
+  <div id="contenedor">
+    <h1>#420 CATS</h1>
+    <h2>Presiona la imagen para conocer nuestra colección de NFTs</h2>
+    <a href="#" onclick="abrirArchivoIPFS()">
+      <img id="imagenIPFS" style="max-width: 300px; cursor: pointer;" alt="#420 CATS NFT COLLECTION">
+    </a>
+  </div>
+  <script>
+    // URL IPFS
+    const urlIPFS = 'https://ipfsgw.vottun.tech/ipfs/bafkreiehbpkj2xbasr3sty5knz3hzqlpbedx3tsten5fmspnoocect6koy';
+
+    function abrirArchivoIPFS() {
+      // Abre una nueva ventana
+      window.open(urlIPFS, '_blank');
+    }
+
+    // Asigna URL de la imagen
+    document.getElementById('imagenIPFS').src = urlIPFS;
+  </script>
+</body>
+</html>
