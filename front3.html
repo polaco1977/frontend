@@ -1,55 +1,67 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>#420 CATS</title>
-  <style>
-    body {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0;
-      flex-direction: column;
-      background-color: black;
-      color: yellow; /* amarillo para las letras */
-    }
-
-    #contenedor {
-      text-align: center;
-    }
-
-    h1 {
-      font-size: 5em; /* Ajusta el tamaño del título */
-      margin-bottom: 15px; /* Ajusta el margen inferior del título */
-	color: white;
-    }
-    
-    h2 {
-      font-size: 1.5em; /* Ajusta el tamaño del párrafo */
-      margin-top: 10px; /* Ajusta el margen superior del párrafo */
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>#420 CATS NFT</title>
 </head>
 <body>
-  <div id="contenedor">
-    <h1>#420 CATS</h1>
-    <h2>Presiona la imagen para conocer nuestra colección de NFTs</h2>
-    <a href="#" onclick="abrirArchivoIPFS()">
-      <img id="imagenIPFS" style="max-width: 300px; cursor: pointer;" alt="#420 CATS NFT COLLECTION">
-    </a>
-  </div>
-  <script>
-    // URL IPFS
-    const urlIPFS = 'https://ipfsgw.vottun.tech/ipfs/bafkreiehbpkj2xbasr3sty5knz3hzqlpbedx3tsten5fmspnoocect6koy';
+    <div id="apiResult">Cargando Vottun NFT...</div>
 
-    function abrirArchivoIPFS() {
-      // Abre una nueva ventana
-      window.open(urlIPFS, '_blank');
-    }
+    <script>
+        const myHeaders = new Headers();
+        myHeaders.append("Content-Type", "application/json");
+        myHeaders.append("Authorization", "Bearer eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJqdGkiOiIyY2JsMWJOTk1FQ3pMbHhHajNSTGhSMGg1RnoiLCJ0eXBlIjoiZXJwIiwiaWQiOiIiLCJ1c2VybmFtZSI6InBvbGFjbzE5NzdAcHJvdG9ubWFpbC5jb20iLCJjaWQiOiI0MzZlODkwNC01N2UyLTRhZDgtOTgxMS02YTFjNmUwNjAwYWQiLCJza3UiOlt7InIiOjExLCJzIjo4LCJlIjowfSx7InIiOjExLCJzIjo4MDEwLCJlIjowfV0sInB1YyI6IjAwMDAwMDAwLTAwMDAtMDAwMC0wMDAwLTAwMDAwMDAwMDAwMCJ9.mfjwXft-hnafiXCGFesdTqIihUqUh8KejmpSjVyv1GclrphmACZzAWjCUsdkb0TOUlsDkrt4t28HlxGF24r_tipanP2ZFj6mSYJuZYAx249GFopSAfnKo3vzTlqGHrEjw7fm_j8_QQCG9C80fswVhYUjWTApinYFQZamqJOogmRMLxymgF7hUjW-HwaBkGxtjOM8zHy9jJQREhsyhJV3CbVbLFy-fmQJqMQjAr8KTGQqQzi78zZBf0Z93P0EF_g86CtuCDSajaXD-DOVXtzx46HRDHiHVp_ZIt7ixdhpELvc85MWTH6SKSDu0rX7zPLPvOat08cwVyKoK9Ct_6IMO6LdVDbch8Q6yDRHfWbfT0ckoWrjbWl5zGKhBgX0K5gK02PXp_lZNinfOTFjJd9qG_SazcJTPgqfGyRib1_42AGb3Wh8VB1k5hvK4l322rxNUtXPN0uhCjcqgEPuHpzkFFVNufT2eiY1SsmAG-yJKuc9t24UdJENwEwo1fKTiRWVhmx1KZp2moJAPUdwodVN6qpMwMtiS01lHvzLMDTG-wGI9Js3_MookFpv3M52nOEyGAFCrl2tv2TCpn4iAQgGWN1PTxD04ClYmtkZc4QmYgXbCnbDHDVGyTHd_iNf2vaPsRhVtuRNghsD8IY5V7MPoQAxsQhlGQ9ou21pXzbFamE");  // Tu token de autorización aquí
+        myHeaders.append("X-application-vkn", "KJQRxtv0CRoGNpI0A0nonI-2Z61YRx61Cu-51e_CSQGNyr3miXbKuyMqQ4k5S9IA");
 
-    // Asigna URL de la imagen
-    document.getElementById('imagenIPFS').src = urlIPFS;
-  </script>
+        const raw = JSON.stringify({
+            "contractAddress": "0x133754f7099e0128C8fc520c2C3c9767EEe84795",
+            "network": 80001,
+            "id": 4
+        });
+
+        const requestOptions = {
+            method: "POST",
+            headers: myHeaders,
+            body: raw,
+            redirect: "follow"
+        };
+
+        // Llamada a la API
+        fetch("https://api.vottun.tech/erc/v1/erc721/tokenUri", requestOptions)
+            .then(response => response.json())
+            .then(result => { console.log(result);
+
+                if (result && result.uri) {
+                    // Obtener el archivo JSON desde la nueva URL
+                    return fetch(result.uri);
+                } else {
+                    throw new Error('No se pudo obtener el URI de la imagen.');
+                }
+            })
+            .then(response => response.json())
+            .then(jsonData => {
+                if (jsonData && jsonData.image) {
+                    // Mostrar la imagen
+                    const img = new Image();
+                    img.src = jsonData.image;
+                    img.alt = 'Imagen NFT';
+
+                    console.log('Imagen URL:', jsonData.image);
+
+                    const apiResultElement = document.getElementById('apiResult');
+                    apiResultElement.innerHTML = '';  // Limpiar contenido existente
+                    apiResultElement.appendChild(img);
+                } else {
+                    throw new Error('No se pudo obtener la URL de la imagen desde el archivo JSON.');
+                }
+            })
+            .catch(error => {
+                console.log('Error:', error.message);
+                document.getElementById('apiResult').innerHTML = error.message;
+            });
+    </script>
+
+    <div id='apiResult'></div>
 </body>
 </html>
